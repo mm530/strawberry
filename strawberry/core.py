@@ -69,23 +69,42 @@ class Sniffer:
             self.s.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)  # 关闭混杂模式
 
     def run(self):
-        try:
-            while 1:
-                raw_buffer = self.s.recvfrom(65565)[0]
-                ip_header = IP(raw_buffer[0:20])
-                print( 'Protocol: %s %s -> %s' % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
+        while 1:
+            raw_buffer = self.s.recvfrom(65565)[0]
+            ip_header = self.unpack_ip(raw_buffer)
+            self.unpack_icmp(raw_buffer, ip_header)
 
-                if ip_header.protocol == 'ICMP':
-                    # 计算ICMP数据包的开始位置
-                    offset = ip_header.ihl * 4
-                    buf = raw_buffer[offset:offset + sizeof(ICMP)]
-                    # 解析ICMP数据包
-                    icmp_header = ICMP(buf)
-                    print( 'ICMP -> Type: %d Code: %d' % (icmp_header.type, icmp_header.code))
-        except KeyboardInterrupt:
-            self.close()
+            # TODO
+
+    def unpack_ip(self, raw_buffer):
+        ip_header = IP(raw_buffer[0:20])
+        print('Protocol: %s %s -> %s' % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
+
+        return ip_header
+
+    def unpack_icmp(self, raw_buffer, ip_header):
+        '''解析icmp数据包，并返回，返回的原因是可能后期要保存到磁盘中'''
+        if ip_header.protocol == 'ICMP':
+            # 计算ICMP数据包的开始位置
+            offset = ip_header.ihl * 4
+            buf = raw_buffer[offset:offset + sizeof(ICMP)]
+            # 解析ICMP数据包
+            icmp_header = ICMP(buf)
+            print('ICMP -> Type: %d Code: %d' % (icmp_header.type, icmp_header.code))
+            return icmp_header
+        else:
+            return None
+
+    def unpack_tcp(self, raw_buffer, ip_header):
+        # TODO
+        pass
+
+    def unpack_udp(self, raw_buffer, ip_header):
+        # TODO
+        pass
 
     def save_packet(self):
+        # TODO
         pass
 
     # 过滤字段
@@ -133,8 +152,3 @@ class Sniffer:
     @monitoring_dst_ports.setter
     def monitoring_dst_ports(self, ports=[]):
         self._monitoring_dst_ports = ports
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
-    s = Sniffer()
-    s.run()
