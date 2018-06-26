@@ -19,6 +19,7 @@ $ pip3 install git+https://github.com/mm530/strawberry
 ## 待开发功能
 - [ ] TCP数据包的解析
 - [ ] UDP数据包的解析
+- [ ] HTTP数据包解析
 - [ ] 可配置选项，只显示用户想显示的信息
 - [ ] 保存数据包
 
