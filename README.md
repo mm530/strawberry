@@ -9,7 +9,13 @@ Strawberry，监控传输层的数据包，解决调试网络方面的困扰。
 * 保存数据包
 
 ## 教程 & 使用
-敬请期待
+捕获ICMP，TCP，UDP数据包，并打印：
+```python
+from strawberry import net_sniffer
+
+snf = net_sniffer.Sniffer()
+snf.run()
+```
 
 ## 安装
 ```bash
