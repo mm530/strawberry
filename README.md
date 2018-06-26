@@ -21,3 +21,9 @@ $ pip3 install git+https://github.com/mm530/strawberry
 - [ ] UDP数据包的解析
 - [ ] 可配置选项，只显示用户想显示的信息
 - [ ] 保存数据包
+
+## 鸣谢
+* Python
+* Linux
+* Pycharm
+* Justin Seitz
