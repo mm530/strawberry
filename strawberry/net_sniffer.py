@@ -28,7 +28,7 @@ class Sniffer:
             while 1:
                 raw_buffer = self.s.recvfrom(65565)[0]
                 ip_header = IP(raw_buffer[0:20])
-                logging.log(logging.INFO, 'Protocol: %s %s -> %s' % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
+                logging.log(logging.DEBUG, 'Protocol: %s %s -> %s' % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
 
                 if ip_header.protocol == 'ICMP':
                     # 计算ICMP数据包的开始位置
@@ -87,6 +87,6 @@ class ICMP(Structure):
         pass
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     s = Sniffer()
     s.run()
