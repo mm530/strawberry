@@ -34,3 +34,6 @@ $ pip3 install git+https://github.com/mm530/strawberry
 * Linux
 * Pycharm
 * Justin Seitz
+
+## 声明
+本项目仅供学习交流，任何由此产生的法律纠纷均与本人无关。
