@@ -56,6 +56,12 @@ class ICMP(Structure):
         pass
 
 class Sniffer:
+    m_protocl = ['ICMP', 'TCP', 'UDP']
+    m_tcp_sport = list(range(0, 65536))
+    m_tcp_dport = list(range(0, 65536))
+    m_ip_src = ['*.*.*.*']   # *.*.*.*代表所有IP，如果只显示特定IP，则不能包含这个
+    m_ip_dst = ['*.*.*.*']
+
     def __init__(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_RAW, SOCKET_PROTOCOL)
         self.s.bind((HOST, 0))
@@ -106,49 +112,3 @@ class Sniffer:
     def save_packet(self):
         # TODO
         pass
-
-    # 过滤字段
-    @property
-    def monitoring_protocols(self):
-        '''监控协议'''
-        return self._monitoring_protocols
-
-    @monitoring_protocols.setter
-    def monitoring_protocols(self, protocols=['ICMP', 'TCP', 'UDP']):
-        self._monitoring_protocols = protocols
-
-    @property
-    def monitoring_srcs(self):
-        '''监控的IP源地址'''
-        return self._monitoring_srcs
-
-    @monitoring_srcs.setter
-    def monitoring_srcs(self, srcs=[]):
-        self._monitoring_srcs = srcs
-
-    @property
-    def monitoring_dsts(self):
-        '''监控目的地址'''
-        return self._monitoring_dsts
-
-    @monitoring_dsts.setter
-    def monitoring_dsts(self, dsts=[]):
-        self._monitoring_dsts = dsts
-
-    @property
-    def monitoring_src_ports(self):
-        '''监控源端口'''
-        return self._monitoring_src_ports
-
-    @monitoring_src_ports.setter
-    def monitoring_src_ports(self, ports=[]):
-        self._monitoring_src_ports = ports
-
-    @property
-    def monitoring_dst_ports(self):
-        '''监控目的端口'''
-        return self._monitoring_dst_ports
-
-    @monitoring_dst_ports.setter
-    def monitoring_dst_ports(self, ports=[]):
-        self._monitoring_dst_ports = ports
